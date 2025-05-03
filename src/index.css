@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-background text-white font-orbitron overflow-hidden;
+}
+
+/* glassmorphic panel */
+/* src/index.css */
+.glass-panel {
+  @apply bg-white bg-opacity-5 backdrop-blur-xl border border-borderGlass rounded-xl;
+}
+
+/* noise overlay */
+.noise {
+  background-image: url('/noise.png');
+  opacity: 0.03;
+  position: fixed; inset: 0; pointer-events: none; z-index: 50;
+}
+
+/* scanlines overlay */
+.scanlines {
+  background-image: url('/scanlines.png');
+  opacity: 0.1;
+  position: fixed; inset: 0; pointer-events: none; z-index: 50;
+}
+
+/* loading-screen glitch text */
+@keyframes text-glitch {
+  0%   { transform: translate(0,0); }
+  20%  { transform: translate(-2px,2px); }
+  40%  { transform: translate(-2px,-2px); }
+  60%  { transform: translate(2px,2px); }
+  80%  { transform: translate(2px,-2px); }
+  100% { transform: translate(0,0); }
+}
+.glitch-text {
+  position: relative;
+  color: transparent;
+  text-shadow: 0 0 2px white;
+}
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute; left: 0; top: 0;
+}
+.glitch-text::before {
+  animation: text-glitch 2s infinite;
+  clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%);
+  color: #00f0ff;
+}
+.glitch-text::after {
+  animation: text-glitch 3s infinite;
+  clip-path: polygon(0 85%, 100% 85%, 100% 88%, 0 88%);
+  color: #ff00c8;
+}
