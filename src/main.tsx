@@ -28,7 +28,7 @@ import {
   RainbowKitProvider,
   darkTheme,
 } from '@rainbow-me/rainbowkit';
-import { wagmiConfig, chains } from './evmConfig';
+import { wagmiConfig } from './evmConfig';
 
 // 1️⃣ IOTA networks
 const { networkConfig: dAppNetworks } = createNetworkConfig({
@@ -38,20 +38,24 @@ const { networkConfig: dAppNetworks } = createNetworkConfig({
 // 2️⃣ React Query
 const queryClient = new QueryClient();
 
+
 // 3️⃣ RainbowKit wallets — now including projectId
-const { connectors } = getDefaultWallets({
+// Removed unused connectors declaration from getDefaultWallets.
+getDefaultWallets({
   appName: 'IOTA Move Audit',
   projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID!,
-  chains,
+  // chains, // ❌ Remove this line
 });
+
+// ...existing code...
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <IotaClientProvider networks={dAppNetworks} defaultNetwork="devnet">
         <IotaWalletProvider autoConnect>
-          <WagmiConfig config={{ ...wagmiConfig, connectors }}>
-            <RainbowKitProvider chains={chains} theme={darkTheme()}>
+          <WagmiConfig config={wagmiConfig}>
+            <RainbowKitProvider theme={darkTheme()}>
               <App />
             </RainbowKitProvider>
           </WagmiConfig>
@@ -60,3 +64,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </QueryClientProvider>
   </React.StrictMode>
 );
+// ...existing code...
