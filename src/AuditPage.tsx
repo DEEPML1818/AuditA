@@ -4,8 +4,7 @@ import { Container, Button, Heading, Text } from '@radix-ui/themes';
 import { ClipLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import { jsPDF } from 'jspdf';
-import init, { Client } from '@iota/sdk';
-import { networkConfig } from './networkConfig';
+import init, {  Transaction, mintSignAndExecute, nftPackageId } from '@iota/sdk';
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
 
@@ -17,6 +16,8 @@ import './index.css';
 type PDFViewerProps = {
   url: string;
 };
+
+const nftPackageId = "0xd6085f6cfd75439a23f812e10a994abc199fdeaa3b23789e6258abc09304c3a7";   
 
 function PDFViewer({ url }: PDFViewerProps) {
   return <iframe title="PDF Viewer" src={url} width="100%" height="600px" />;
@@ -212,23 +213,66 @@ export default function AuditPage() {
   //
   // ─── Publish to IOTA ───────────────────────────────────────────────────────
   //
-  const mintNFT = async () => {
-    if (!pdfUrl) return toast.error('No PDF URL to publish.');
+  const mintNFT = () => {
+    if (!pdfUrl) {
+      toast.error("No PDF URL available to mint NFT.");
+      return;
+    }
+  
     setMintLoading(true);
+  
     try {
-      const client = new Client({ nodes: [networkConfig.devnet.jsonRpcUrl] });
-      const data = new TextEncoder().encode(pdfUrl);
-      const msg = await client.postMessage({ index: 'AUDIT_REPORT', data });
-      setMintTxResponse({ messageId: msg.messageId });
-      toast.success('Published to IOTA: ' + msg.messageId);
-    } catch (e: any) {
-      setMintError(e.message || 'Publish failed');
-      toast.error(e.message);
-    } finally {
+      const tx = new Transaction();
+  
+      tx.moveCall({
+        target: `${nftPackageId}::nft::mint_to_sender`,
+        arguments: [
+          tx.pure.string("Audit Report"),              // NFT name
+          tx.pure.string("Audit Report Description"),  // NFT description
+          tx.pure.string(pdfUrl),                      // Metadata URI (points to IPFS-hosted PDF)
+        ],
+        typeArguments: [],
+      });
+  
+      interface MintSuccessResult {
+        messageId: string;
+        // add other properties if needed
+      }
+
+      interface MintError {
+        message: string;
+        // add other properties if needed
+      }
+
+      interface MintCallbacks {
+        onSuccess: (result: MintSuccessResult) => void;
+        onError: (err: MintError) => void;
+      }
+
+      mintSignAndExecute(
+        { transaction: tx },
+        {
+          onSuccess: (result: MintSuccessResult): void => {
+            setMintTxResponse(result);
+            toast.success("NFT minted successfully!");
+            setMintLoading(false);
+          },
+          onError: (err: MintError): void => {
+            const msg: string = err.message || "Minting NFT failed";
+            setMintError(msg);
+            toast.error(msg);
+            setMintLoading(false);
+          },
+        } as MintCallbacks
+      );
+    } catch (err: any) {
+      const msg = err.message || "Unexpected error while minting NFT";
+      setMintError(msg);
+      toast.error(msg);
       setMintLoading(false);
     }
   };
-
+  
   //
   // ─── Publish to EVM ───────────────────────────────────────────────────────
   //
