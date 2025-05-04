@@ -6,10 +6,6 @@
 Secured 🔐 On-Chain with 🧿 IOTA via 📦 IPFS  
 </strong></p>
 
-### 🚀 Live Simulator
-
-Check out the live demo here: [🔗 AuditA Simulator](https:/xxxxxxxxxx.vercel.app/)
-
 ### 📄 IOTA and MoveVM+EVM Deployment (Testnet)
 
 - **IOTA NFT Minter Contract Address (Testnet):** [`0xd6085f6cfd75439a23f812e10a994abc199fdeaa3b23789e6258abc09304c3a7`](https://explorer.rebased.iota.org/object/0xd6085f6cfd75439a23f812e10a994abc199fdeaa3b23789e6258abc09304c3a7?network=testnet)
