@@ -1,9 +1,6 @@
-import React from 'react';
 import Layout from './components/Layout';
 import WalletStatus from './WalletStatus';
-import OwnedObjects from './OwnedObjects';
 import AuditPage from './AuditPage';
-import { ConnectButton } from '@iota/dapp-kit';
 import LoadingScreen from './components/LoadingScreen';
 import ParallaxBackground from './components/ParallaxBackground';
 

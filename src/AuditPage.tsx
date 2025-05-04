@@ -1,5 +1,5 @@
 // src/AuditPage.tsx
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import  { useState, useEffect, ChangeEvent } from 'react';
 import { Container, Button, Heading, Text } from '@radix-ui/themes';
 import { ClipLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
@@ -216,7 +216,7 @@ export default function AuditPage() {
     if (!pdfUrl) return toast.error('No PDF URL to publish.');
     setMintLoading(true);
     try {
-      const client = new Client({ nodes: [networkConfig.devnet.url] });
+      const client = new Client({ nodes: [networkConfig.devnet.jsonRpcUrl] });
       const data = new TextEncoder().encode(pdfUrl);
       const msg = await client.sendMessage({ index: 'AUDIT_REPORT', data });
       setMintTxResponse({ messageId: msg.messageId });
@@ -238,7 +238,8 @@ export default function AuditPage() {
     }
     setMintLoading(true);
     try {
-      const nft = new ethers.Contract(ERC721_ADDRESS, ERC721_ABI, signer);
+      const resolvedSigner = await signer;
+      const nft = new ethers.Contract(ERC721_ADDRESS, ERC721_ABI, resolvedSigner);
       const tx = await nft.mintTo(evmAddress!, uri);
       const rec = await tx.wait();
       toast.success('EVM NFT minted: ' + rec.transactionHash);
