@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { jsPDF } from 'jspdf';
 import init, {  Transaction, mintSignAndExecute } from '@iota/sdk';
 
+
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
 
@@ -215,7 +216,7 @@ export default function AuditPage() {
   // ─── Publish to IOTA ───────────────────────────────────────────────────────
   //
   
-  const mintNFT = () => {
+  const mintNFT = async () => {
     if (!pdfUrl) return toast.error("No PDF URL available to mint NFT.");
     setMintLoading(true);
     try {
@@ -230,30 +231,18 @@ export default function AuditPage() {
         ],
         typeArguments: [],
       });
-  
       
-      mintSignAndExecute({
-        transaction: tx,
-        onSuccess: (result: any) => {
-          setMintTxResponse(result);
-          toast.success("NFT minted successfully!");
-          setMintLoading(false);
-        },
-        onError: (err: any) => {
-          const msg = err.message || "Minting NFT failed";
-          setMintError(msg);
-          toast.error(msg);
-          setMintLoading(false);
-        }
-      });
+      const result = await mintSignAndExecute({ transaction: tx });
+      setMintTxResponse(result);
+      toast.success("NFT minted successfully!");
     } catch (err: any) {
-      const msg = err.message || "Unexpected error while minting NFT";
+      const msg = err.message || "Minting NFT failed";
       setMintError(msg);
       toast.error(msg);
+    } finally {
       setMintLoading(false);
     }
   };
-  
   //
   // ─── Publish to EVM ───────────────────────────────────────────────────────
   //
