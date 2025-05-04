@@ -1,6 +1,6 @@
 // src/OwnedObjects.tsx
 import { useEffect, useState } from 'react';
-import { Container, Heading, Text } from '@radix-ui/themes';
+import {  Heading, Text } from '@radix-ui/themes';
 import { networkConfig } from './networkConfig';
 import { motion } from 'framer-motion';
 

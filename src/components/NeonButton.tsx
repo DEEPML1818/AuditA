@@ -2,7 +2,12 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 
-export function NeonButton({ children, onClick }) {
+interface NeonButtonProps {
+  children: React.ReactNode;
+  onClick: () => void;
+}
+
+export function NeonButton({ children, onClick }: NeonButtonProps) {
   return (
     <motion.button
       onClick={onClick}

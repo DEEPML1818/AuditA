@@ -1,7 +1,6 @@
 // src/WalletStatus.tsx
 import { useEffect, useState } from 'react';
 import { useCurrentAccount } from '@iota/dapp-kit';
-import OwnedObjects from './OwnedObjects';
 import { networkConfig } from './networkConfig';
 import { Container, Flex, Heading, Text } from '@radix-ui/themes';
 import { motion } from 'framer-motion';

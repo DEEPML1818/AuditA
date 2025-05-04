@@ -1,5 +1,5 @@
 // src/Layout.tsx
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { ConnectButton } from '@iota/dapp-kit';
 import { Flex, Heading } from '@radix-ui/themes';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,21 +12,20 @@ export function Layout({ children }: { children: ReactNode }) {
       <div className="scanlines" />
 
       {/* ── Sticky Glass Header ───────────────────────────────────────── */}
-      <Flex
-        as="header"
-        position="sticky"
-        top={0}
-        px="4"
-        py="2"
-        justify="between"
-        align="center"
-        className="glass mx-4 mt-4 rounded-2xl shadow-md z-10"
-      >
-        <Heading className="text-cyber-magenta font-bold  ">
-          AuditA
-        </Heading>
-        <ConnectButton className="glass px-4 py-2 animate-pulsate" />
-      </Flex>
+      <header className="mx-4 mt-4 sticky top-0">
+        <Flex
+          px="4"
+          py="2"
+          justify="between"
+          align="center"
+          className="glass rounded-2xl shadow-md z-10"
+        >
+          <Heading className="text-cyber-magenta font-bold  ">
+            AuditA
+          </Heading>
+          <ConnectButton className="glass px-4 py-2 animate-pulsate" />
+        </Flex>
+      </header>
 
       {/* ── Main Content ─────────────────────────────────────────────────── */}
       <main className="w-full max-w-4xl mx-auto p-6 space-y-6">

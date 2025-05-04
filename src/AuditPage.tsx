@@ -218,7 +218,7 @@ export default function AuditPage() {
     try {
       const client = new Client({ nodes: [networkConfig.devnet.jsonRpcUrl] });
       const data = new TextEncoder().encode(pdfUrl);
-      const msg = await client.sendMessage({ index: 'AUDIT_REPORT', data });
+      const msg = await client.postMessage({ index: 'AUDIT_REPORT', data });
       setMintTxResponse({ messageId: msg.messageId });
       toast.success('Published to IOTA: ' + msg.messageId);
     } catch (e: any) {
