@@ -1,16 +1,90 @@
+/* src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-background text-white font-orbitron overflow-hidden;
+/* ── Colors & Vars ───────────────────────────────────────────────────────── */
+:root {
+  --cyber-bg:        #0a0a12;
+  --cyber-text:      #e0e0e0;
+  --cyber-border:    rgba(255,255,255,0.15);
+  --cyber-accent:    #8247e5;
+  --cyber-glow:      rgba(130,71,229,0.6);
+  --cyber-magenta:   #ff00c8;
+  --cyber-lime:      #39ff14;
+  --cyber-blue:      #00f0ff;
+  --cyber-yellow:    #fff100;
+  --cyber-red:       #ff0044;
 }
 
-/* glassmorphic panel */
-/* src/index.css */
-.glass-panel {
-  @apply bg-white bg-opacity-5 backdrop-blur-xl border border-borderGlass rounded-xl;
+/* ── Global ───────────────────────────────────────────────────────────────── */
+body, #root {
+  @apply m-0 p-0 min-h-screen bg-[var(--cyber-bg)] text-[var(--cyber-text)];
+  font-family: 'Orbitron', sans-serif;
+  background-image: radial-gradient(circle at 30% 30%, #1e1e2f, var(--cyber-bg));
 }
+
+/* ── Components ───────────────────────────────────────────────────────────── */
+@layer components {
+  /* Glass panel */
+  .glass {
+    @apply bg-white bg-opacity-5 backdrop-blur-lg border border-[var(--cyber-border)] rounded-lg;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+    transition: box-shadow .3s;
+  }
+  .glass:hover {
+    box-shadow: 0 6px 40px var(--cyber-glow);
+  }
+
+  /* Audit items grid */
+  .audit-grid {
+    @apply grid grid-cols-1 gap-6;
+  }
+  @screen md {
+    .audit-grid {
+      @apply grid-cols-2;
+    }
+  }
+
+  /* Each audit item */
+  .audit-item {
+    @apply glass p-6 flex flex-col space-y-4;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply flex items-center justify-center bg-[var(--cyber-accent)] text-white font-bold rounded-md
+           px-6 py-2 transition-transform duration-200;
+  }
+  .btn-primary:hover {
+    @apply -translate-y-0.5 scale-105;
+    box-shadow: 0 0 16px var(--cyber-glow);
+  }
+  .btn-primary:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* PDF viewer wrapper */
+  .pdf-viewer {
+    @apply glass p-2;
+  }
+
+  /* Manual‐entry fallback */
+  .fallback-section {
+    @apply glass p-6 space-y-4;
+  }
+
+  /* Publish section */
+  .publish-section {
+    @apply space-y-4;
+  }
+
+  /* Centered button row */
+  .center-buttons {
+    @apply flex justify-center space-x-4;
+  }
+}
+
 
 /* noise overlay */
 .noise {
@@ -54,4 +128,312 @@ body {
   animation: text-glitch 3s infinite;
   clip-path: polygon(0 85%, 100% 85%, 100% 88%, 0 88%);
   color: #ff00c8;
+}
+
+/* Optional: noise & scanlines overlays */
+.noise {
+  position: fixed; inset: 0; pointer-events: none; z-index: 50;
+  background-image: url('/noise.png');
+  opacity: 0.03;
+}
+.scanlines {
+  position: fixed; inset: 0; pointer-events: none; z-index: 50;
+  background-image: url('/scanlines.png');
+  opacity: 0.1;
+}
+
+/* Utility for neon‑glow shadows */
+@layer utilities {
+  .shadow-neon-blue {
+    box-shadow: 0 0 8px #00f0ff, 0 0 16px #00f0ff;
+  }
+  .shadow-neon-magenta {
+    box-shadow: 0 0 8px #ff00c8, 0 0 16px #ff00c8;
+  }
+}
+
+/* index.css */
+
+:root {
+  --cyber-bg: #0f0f19;
+  --cyber-border: #1a1a2e;
+  --cyber-accent: #8247e5;
+  --cyber-glow: rgba(130, 71, 229, 0.5);
+}
+
+body {
+  background-color: var(--cyber-bg);
+  color: #e0e0e0;
+}
+
+/* Glass effect panels */
+.glass {
+  background: rgba(20, 20, 40, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--cyber-border);
+  border-radius: 8px;
+  box-shadow: 0 0 10px var(--cyber-glow);
+}
+
+/* File input styling to match glass theme */
+.glass-file-input {
+  padding: 6px;
+  border: 1px dashed var(--cyber-border);
+  border-radius: 4px;
+  background: transparent;
+  color: #e0e0e0;
+}
+
+/* Primary buttons */
+.btn-primary {
+  background: var(--cyber-accent);
+  color: white !important;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  font-weight: bold;
+  box-shadow: 0 0 8px var(--cyber-glow);
+}
+.btn-primary:hover {
+  box-shadow: 0 0 16px var(--cyber-glow);
+}
+
+/* Scrollable text areas */
+textarea {
+  font-family: monospace;
+}
+
+/* PDFViewer container tweak */
+.w-full.h-96 {
+  border-color: var(--cyber-border);
+}
+
+/* index.css */
+
+/* ------------- Global & Background ------------- */
+body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: #0a0a12;
+  color: #e0e0e0;
+  font-family: 'Segoe UI',sans-serif;
+  background-image: radial-gradient(circle at 30% 30%, #1e1e2f, #0a0a12);
+}
+
+/* ------------- Glass Panel ------------- */
+.glass {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+  transition: box-shadow .3s ease;
+}
+.glass:hover {
+  box-shadow: 0 6px 40px rgba(130,71,229,0.6);
+}
+
+/* ------------- Typography ------------- */
+h1, h2, h3, h4 {
+  margin: 0;
+  padding: 0;
+  letter-spacing: 1px;
+}
+h1 { font-size: 2.5rem; }
+h2 { font-size: 1.75rem; }
+
+/* ------------- Form Elements ------------- */
+input, textarea {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  padding: 0.6rem;
+  outline: none;
+  transition: border-color .2s ease;
+}
+input:focus, textarea:focus {
+  border-color: #8247e5;
+}
+
+/* ------------- Buttons ------------- */
+.btn-primary {
+  background: none;
+  color: #8247e5;
+  border: 2px solid #8247e5;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.btn-primary:hover {
+  background: #8247e5;
+  color: #fff;
+}
+
+/* ------------- Grid & Layout ------------- */
+.audit-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 640px) {
+  .audit-grid { grid-template-columns: repeat(2,1fr); }
+}
+
+/*──────────────────────────────────────────────────────────────
+  AuditPage “card” wrapper 
+──────────────────────────────────────────────────────────────*/
+.audit-page-container {
+  /* mimic that centered dark card look */
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+/*──────────────────────────────────────────────────────────────
+  Form grid: single column on mobile, two on tablet+ 
+──────────────────────────────────────────────────────────────*/
+.audit-page-container .audit-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 640px) {
+  .audit-page-container .audit-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/*──────────────────────────────────────────────────────────────
+  Inputs & textarea 
+──────────────────────────────────────────────────────────────*/
+.audit-page-container input[type="text"],
+.audit-page-container input[type="file"] + * , /* file input wrapper */
+.audit-page-container textarea {
+  width: 100%;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #e0e0e0;
+  padding: 0.6rem;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  box-sizing: border-box;
+}
+
+/*──────────────────────────────────────────────────────────────
+  Buttons row 
+──────────────────────────────────────────────────────────────*/
+.audit-page-container .flex.gap-4.justify-center {
+  justify-content: flex-start !important;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/*──────────────────────────────────────────────────────────────
+  Primary button override (blue) 
+──────────────────────────────────────────────────────────────*/
+.audit-page-container .btn-primary {
+  background: #3366ff !important;
+  border: none !important;
+  color: #fff !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 4px !important;
+  font-weight: 500;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(51,102,255,0.6);
+  transition: box-shadow 0.2s, transform 0.1s;
+}
+.audit-page-container .btn-primary:hover {
+  box-shadow: 0 4px 16px rgba(51,102,255,0.8);
+  transform: translateY(-1px);
+}
+
+/*──────────────────────────────────────────────────────────────
+  Full‑width “Refresh” or other wide buttons 
+──────────────────────────────────────────────────────────────*/
+.audit-page-container .refresh-button {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+/*──────────────────────────────────────────────────────────────
+  PDF viewer panel 
+──────────────────────────────────────────────────────────────*/
+.audit-page-container iframe {
+  border: none;
+  border-radius: 4px;
+  background: #18181a;
+}
+
+/*──────────────────────────────────────────────────────────────
+  Fallback & publish sections get extra spacing 
+──────────────────────────────────────────────────────────────*/
+.audit-page-container .fallback-section,
+.audit-page-container .publish-section {
+  margin-top: 2rem;
+}
+
+/*──────────────────────────────────────────────────────────────
+  Typography tweaks 
+──────────────────────────────────────────────────────────────*/
+.audit-page-container h4,
+.audit-page-container h2 {
+  color: #e0e0e0;
+  margin-bottom: 0.5rem;
+}
+
+/* Invisible “glass” blocks to structure each section */
+.audit-page-container .audit-block {
+  /* semi-transparent, but you can tweak opacity: */
+  background: rgba(30, 30, 48, 0.4);
+  backdrop-filter: blur(12px);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  /* you can remove border or keep a very light one: */
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Tighten up header block (no extra padding) */
+.audit-page-container .header-block {
+  background: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  margin-bottom: 0.75rem;
+  padding: 0;
+}
+
+/* Inputs grid stays same, but inside its parent block */
+.audit-page-container .items-block .audit-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 640px) {
+  .audit-page-container .items-block .audit-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Buttons row aligned left inside its block */
+.audit-page-container .actions-block .flex {
+  justify-content: flex-start;
+}
+
+/* Response block minimal styling */
+.audit-page-container .response-block {
+  text-align: center;
+  background: none;
+  border: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  padding: 0;
+  margin-top: 1rem;
 }

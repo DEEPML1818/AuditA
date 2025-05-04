@@ -12,10 +12,10 @@ export default function WalletStatus() {
   const account = useCurrentAccount();
   const envAddress = import.meta.env.VITE_IOTA_ADDRESS || '';
   const [balance, setBalance] = useState<string>('');
-  const [error, setError]     = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    if (account) return;  // skip REST if wallet connected
+    if (account) return;
 
     if (!envAddress) {
       setError('No IOTA address configured (VITE_IOTA_ADDRESS)');
@@ -38,39 +38,50 @@ export default function WalletStatus() {
     fetchBalance();
   }, [account, envAddress]);
 
-  // wrap Radix Container for animation
   const MotionContainer = motion(Container);
 
   return (
     <MotionContainer
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass-panel p-6 text-white space-y-4"
+      className="max-w-sm w-full mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 space-y-4 shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_8px_24px_rgba(0,0,0,0.6)] text-white"
     >
-      <Heading size="2" className="text-neonGreen">
+      <Heading
+        size="2"
+        className="text-2xl font-extrabold text-center text-[#39FF14] drop-shadow-[0_0_4px_#39FF14]"
+      >
         Wallet Status
       </Heading>
 
       {account ? (
         <Flex direction="column" className="space-y-1 mt-2">
-          <Text className="text-neonGreen">Connected</Text>
+          <Text className="text-[#39FF14] font-medium drop-shadow-[0_0_4px_#39FF14]">
+            Connected
+          </Text>
           <Text className="text-sm break-all">{account.address}</Text>
         </Flex>
       ) : error ? (
-        <Text className="text-neonPink mt-2">{error}</Text>
+        <Text className="text-[#FF00C8] font-medium mt-2 drop-shadow-[0_0_4px_#FF00C8]">
+          {error}
+        </Text>
       ) : (
         <Flex direction="column" className="space-y-1 mt-2">
-          <Text className="text-neonBlue">Using fallback address:</Text>
-          <Text className="text-sm break-all text-neonBlue">
+          <Text className="text-[#00FFFF] font-medium drop-shadow-[0_0_4px_#00FFFF]">
+            Using fallback address:
+          </Text>
+          <Text className="text-sm break-all text-[#00FFFF] drop-shadow-[0_0_4px_#00FFFF]">
             {envAddress}
           </Text>
-          <Text className="text-neonGreen">Balance: {balance} i</Text>
+          <Text className="text-[#39FF14] font-medium drop-shadow-[0_0_4px_#39FF14]">
+            Balance: {balance} i
+          </Text>
         </Flex>
       )}
 
-      <hr className="border-t border-borderGlass my-4" />
+      <hr className="border-t border-white/20 my-4" />
 
-      <OwnedObjects />
+     
     </MotionContainer>
   );
 }
+// src/WalletStatus.tsx

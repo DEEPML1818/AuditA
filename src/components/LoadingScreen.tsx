@@ -13,7 +13,6 @@ export default function LoadingScreen() {
         className="glitch-text text-6xl font-bold"
         data-text="CYBER PULSE"
       >
-        CYBER PULSE
       </h1>
     </div>
   );
