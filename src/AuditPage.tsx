@@ -4,7 +4,7 @@ import { Container, Button, Heading, Text } from '@radix-ui/themes';
 import { ClipLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import { jsPDF } from 'jspdf';
-import init, {  Transaction } from '@iota/sdk';
+import init from '@iota/sdk';
 
 
 import { useAccount } from 'wagmi';
@@ -19,7 +19,6 @@ type PDFViewerProps = {
   url: string;
 };
 
-const nftPackageId = "0xd6085f6cfd75439a23f812e10a994abc199fdeaa3b23789e6258abc09304c3a7";   
 
 function PDFViewer({ url }: PDFViewerProps) {
   return <iframe title="PDF Viewer" src={url} width="100%" height="600px" />;
@@ -59,6 +58,7 @@ export default function AuditPage() {
   const [mintTxResponse, setMintTxResponse] = useState<any>(null);
   const [mintError, setMintError] = useState('');
 
+    console.log(setMintTxResponse, setMintError, setPdfUrl, setMintLoading, setFallbackMode, setManualAuditReport, setSubmitting, setAuditItems)
   //
   // ─── Init IOTA WASM ─────────────────────────────────────────────────────────
   //
@@ -219,7 +219,7 @@ export default function AuditPage() {
   const mintNFT = async () => {
     if (!pdfUrl) return toast.error("No PDF URL available to mint NFT.");
     setMintLoading(true);
-    
+   
   };
   //
   // ─── Publish to EVM ───────────────────────────────────────────────────────
