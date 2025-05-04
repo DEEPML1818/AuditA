@@ -4,7 +4,7 @@ import { Container, Button, Heading, Text } from '@radix-ui/themes';
 import { ClipLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import { jsPDF } from 'jspdf';
-import init, {  Transaction, mintSignAndExecute } from '@iota/sdk';
+import init, {  Transaction } from '@iota/sdk';
 
 
 import { useAccount } from 'wagmi';
@@ -219,29 +219,7 @@ export default function AuditPage() {
   const mintNFT = async () => {
     if (!pdfUrl) return toast.error("No PDF URL available to mint NFT.");
     setMintLoading(true);
-    try {
-      const tx = new Transaction();
-      tx.setGasBudget(50000000);
-      tx.moveCall({
-        target: `${nftPackageId}::nft::mint_to_sender`,
-        arguments: [
-          tx.pure.string("Audit Report"),
-          tx.pure.string("Audit Report Description"),
-          tx.pure.string(pdfUrl),
-        ],
-        typeArguments: [],
-      });
-      
-      const result = await mintSignAndExecute({ transaction: tx });
-      setMintTxResponse(result);
-      toast.success("NFT minted successfully!");
-    } catch (err: any) {
-      const msg = err.message || "Minting NFT failed";
-      setMintError(msg);
-      toast.error(msg);
-    } finally {
-      setMintLoading(false);
-    }
+    
   };
   //
   // ─── Publish to EVM ───────────────────────────────────────────────────────
