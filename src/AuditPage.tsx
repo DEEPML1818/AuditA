@@ -4,7 +4,8 @@ import { Container, Button, Heading, Text } from '@radix-ui/themes';
 import { ClipLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import { jsPDF } from 'jspdf';
-import init, {  Transaction, mintSignAndExecute, nftPackageId } from '@iota/sdk';
+import init, {  Transaction, mintSignAndExecute } from '@iota/sdk';
+
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
 
@@ -213,58 +214,38 @@ export default function AuditPage() {
   //
   // ─── Publish to IOTA ───────────────────────────────────────────────────────
   //
+  
   const mintNFT = () => {
-    if (!pdfUrl) {
-      toast.error("No PDF URL available to mint NFT.");
-      return;
-    }
-  
+    if (!pdfUrl) return toast.error("No PDF URL available to mint NFT.");
     setMintLoading(true);
-  
     try {
       const tx = new Transaction();
-  
+      tx.setGasBudget(50000000);
       tx.moveCall({
         target: `${nftPackageId}::nft::mint_to_sender`,
         arguments: [
-          tx.pure.string("Audit Report"),              // NFT name
-          tx.pure.string("Audit Report Description"),  // NFT description
-          tx.pure.string(pdfUrl),                      // Metadata URI (points to IPFS-hosted PDF)
+          tx.pure.string("Audit Report"),
+          tx.pure.string("Audit Report Description"),
+          tx.pure.string(pdfUrl),
         ],
         typeArguments: [],
       });
   
-      interface MintSuccessResult {
-        messageId: string;
-        // add other properties if needed
-      }
-
-      interface MintError {
-        message: string;
-        // add other properties if needed
-      }
-
-      interface MintCallbacks {
-        onSuccess: (result: MintSuccessResult) => void;
-        onError: (err: MintError) => void;
-      }
-
-      mintSignAndExecute(
-        { transaction: tx },
-        {
-          onSuccess: (result: MintSuccessResult): void => {
-            setMintTxResponse(result);
-            toast.success("NFT minted successfully!");
-            setMintLoading(false);
-          },
-          onError: (err: MintError): void => {
-            const msg: string = err.message || "Minting NFT failed";
-            setMintError(msg);
-            toast.error(msg);
-            setMintLoading(false);
-          },
-        } as MintCallbacks
-      );
+      
+      mintSignAndExecute({
+        transaction: tx,
+        onSuccess: (result: any) => {
+          setMintTxResponse(result);
+          toast.success("NFT minted successfully!");
+          setMintLoading(false);
+        },
+        onError: (err: any) => {
+          const msg = err.message || "Minting NFT failed";
+          setMintError(msg);
+          toast.error(msg);
+          setMintLoading(false);
+        }
+      });
     } catch (err: any) {
       const msg = err.message || "Unexpected error while minting NFT";
       setMintError(msg);
