@@ -5,7 +5,7 @@ import { ClipLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import { jsPDF } from 'jspdf';
 import init from '@iota/client-wasm/web';
-
+import { Transaction } from "@iota/iota-sdk/transactions";
 
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
