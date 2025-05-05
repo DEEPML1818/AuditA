@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 # Install build dependencies
 RUN apt-get update && apt-get install -y git
 
-npm install -g cargo-cp-artifact
+RUN npm install -g cargo-cp-artifact
 
 
 
