@@ -1,10 +1,9 @@
 services:
   - type: web
-    name: my-rust-app
-    runtime: rust
-    buildCommand: "cargo build --release"
-    startCommand: "./target/release/your_app_binary_name"
-    plan: free 
-    buildCommand: "npm install --force"
-    startCommand: "npm start"
-
+    name: audita-app
+    plan: free
+    autoDeploy: true
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
