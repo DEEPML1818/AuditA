@@ -37,4 +37,4 @@ ENV TSC_COMPILE_ON_ERROR=true
 RUN npm run build || echo "Skipping build"
 
 # Run the app
-CMD ["npm", "dev"]
+CMD ["npm", "build"]
