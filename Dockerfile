@@ -14,7 +14,16 @@ RUN apt-get update && apt-get install -y \
   && apt-get clean
 
 # Install required cargo tool for @iota/sdk build
-RUN cargo install cargo-cp-artifact
+# Install build dependencies
+RUN apt-get update && apt-get install -y git
+
+# Clone IOTA SDK
+RUN git clone https://github.com/iotaledger/iota-sdk.git /iota-sdk
+
+# Install cargo-cp-artifact
+RUN cargo install --path /iota-sdk/bindings/wasm/tools/cargo-cp-artifact
+
+
 
 # Set working directory
 WORKDIR /app
