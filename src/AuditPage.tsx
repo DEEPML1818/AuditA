@@ -4,7 +4,7 @@ import { Container, Button, Heading, Text } from '@radix-ui/themes';
 import { ClipLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import { jsPDF } from 'jspdf';
-import init from '@iota/sdk';
+import init from '@iota/client-wasm/web';
 
 
 import { useAccount } from 'wagmi';
